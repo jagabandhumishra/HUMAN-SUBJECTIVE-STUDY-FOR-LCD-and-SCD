@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .loader {
+      border: 8px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 8px solid #3498db;
+      width: 50px;
+      height: 50px;
+      -webkit-animation: spin 2s linear infinite;
+      /* Safari */
+      animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="music-container" id="music-container">
+    <div class="music-info" id="music-info">
+      <span class="timestamp" id="timestamp">00:00 / 00:00</span>
+      <div class="progress-container" id="progress-container">
+        <div class="progress" id="progress"></div>
+      </div>
+    </div>
+
+    <audio src="music/Language_change_2/1.wav" id="audio"></audio>
+
+    <div class="img-container">
+      <img src="images/language_change_2/1.png" alt="music-cover" id="cover" />
+    </div>
+
+    <div class="navigation">
+      <!-- <div class="col s6 input-field">
+					<input value="" id="number" min="1" max="150" step="1" type="number" class="validate">
+					<label for="number">Enter sentence no</label>
+				</div> -->
+      <!-- <button id="random" class="action-btn">
+					<i class="fa fa-random"></i>
+				</button> -->
+
+      <!-- <button id="prev" class="action-btn">
+					<i class="fa fa-backward"></i>
+				</button> -->
+      <!-- <form> -->
+
+      <button id="play" class="action-btn action-btn-big">
+        <i class="fa fa-play">Play</i>
+      </button>
+      <button id="repeat" class="action-btn" name="repeat">
+        <i class="fa fa-repeat">Repeat</i>
+      </button>
+      <button id="next" style="display: none;" class="action-btn" name="number">
+        <i class="fa fa-forward">Next audio</i>
+      </button>
+      <div id="loader" class="loader" style="display: none;"></div>
+
+      <br />
+      <div id="changeDetected" class="text-align: center;" style="visibility: visible;">
+        <h4>Do you detect any Language change?</h4>
+      </div>
+      <div id="gratitudeMessage" class="text-align: center;" style="visibility: hidden;">
+        <h4>Thank You for your response.</h4>
+      </div>
+
+      <br />
+      <button id="yes" class="action-btn" name="yes">
+        <i class="fa fa-yes">Yes</i>
+      </button>
+
+      <button id="no" class="action-btn" name="no">
+        <i class="fa fa-no">No</i>
+      </button>
+      <!-- </form> -->
+    </div>
+    <h4 id="title"></h4>
+  </div>
+
+  <!-- <p hidden>
+		<details class="order-container" id="order-container"></details>
+			</p> -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+  </script>
+  <script>
+    const musicContainer = document.getElementById("music-container");
+    const musicInfo = document.getElementById("music-info");
+    const playBtn = document.getElementById("play");
+    // const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById("next");
+    nextBtn.disabled = true;
+    const sentence = document.getElementById("number");
+    // const random = document.getElementById('random');
+    const repeat = document.getElementById("repeat");
+    const audio = document.getElementById("audio");
+    const progress = document.getElementById("progress");
+    const progressContainer = document.getElementById("progress-container");
+    const title = document.getElementById("title");
+    const cover = document.getElementById("cover");
+    const timestamp = document.getElementById("timestamp");
+    // const orderContainer = document.getElementById('order-container');
+    const yes = document.getElementById("yes");
+    const no = document.getElementById("no");
+    var noOfRepeats = 0;
+    // Song titles
+    var initialSongs = [];
+
+    for (let i = 1; i <= 240; i++) {
+      initialSongs.push(i.toString());
+    }
+
+    let songs = [...initialSongs];
+
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+
+    // Get the value of "sentence-number" --> "https://example.com/?sentence-number=1"
+    let value = params.sentence;
+
+    // Keep track of song
+    let songIndex = value;
+
+    // Initially load song details info DOM
+    loadSong(songs[songIndex - 1]);
+
+    // Update song details
+    function loadSong(song) {
+      title.innerText = song + '/' + '240';
+      audio.src = `music/Language_change_2/${song}.wav`;
+      cover.src = `images/language_change_2/${song}.png`;
+    }
+    var startTime;
+    // Play song
+    function playSong() {
+      updateTimestamp();
+      startPlayingSong();
+      startTime = Date.now();
+    }
+
+    function startPlayingSong() {
+      musicContainer.classList.add("play");
+      musicInfo.classList.add("show");
+      playBtn.querySelector("i.fa").classList.remove("fa-play");
+      playBtn.querySelector("i.fa").classList.add("fa-pause");
+      audio.play();
+    }
+
+    // Pause song
+    function pauseSong() {
+      musicContainer.classList.remove("play");
+      playBtn.querySelector("i.fa").classList.add("fa-play");
+      playBtn.querySelector("i.fa").classList.remove("fa-pause");
+
+      audio.pause();
+    }
+
+    // Calculate time
+    function stopButton(yesNo) {
+      playBtn.disabled = false;
+      if (startTime) {
+        var endTime = Date.now();
+        var difference = endTime - startTime;
+        startTime = null;
+
+        uploadData(yesNo, difference);
+      }
+    }
+
+    // upload data
+    function uploadData(yesNo, time) {
+      document.getElementById('loader').style.display = 'block';
+      var regId = sessionStorage.getItem("rid");
+      var newObj = "rid=" + regId.toString() + "&time=" + time.toString() + "&noOfRepeats=" + noOfRepeats.toString() + "&yesNo=" + yesNo + "&uttId=" + (songs[songIndex - 1]).toString();
+      yes.disabled = true;
+      no.disabled = true;
+      repeat.disabled = true;
+      playBtn.disabled = true;
+      //update data in excel
+      var url = 'https://script.google.com/macros/s/AKfycby5XtkfIFe60xZq9JH48lSWpwe7ol31XuwiiDGSz5AVuiAfnhVXJMwqqm1ZH13Pfr-H/exec';
+      var jqxhr = $.post(url, newObj, function (data) {
+        document.getElementById('loader').style.display = 'none';
+        nextBtn.disabled = false;
+        yes.disabled = false;
+        no.disabled = false;
+        playBtn.disabled = false;
+        nextSong();
+      })
+        .fail(function (data) {
+          console.warn("Error! Data: " + data.statusText);
+          if (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) {
+          }
+        });
+
+      noOfRepeats = 0;
+    }
+
+
+    // Next song
+    function nextSong() {
+      nextBtn.disabled = true;
+      repeat.disabled = true;
+      playBtn.disabled = false;
+      songIndex++;
+
+      if (songIndex > songs.length) {
+        songIndex = songIndex - 1;
+        nextBtn.disabled = true;
+        playBtn.disabled = true;
+        repeat.disabled = true;
+        yes.disabled = true;
+        no.disabled = true; 
+        document.getElementById('gratitudeMessage').style.visibility="visible";
+        document.getElementById('changeDetected').style.visibility="hidden";
+      } else {
+        loadSong(songs[songIndex - 1]);
+
+        // playSong();
+      }
+    }
+
+    // Get song duration
+    function getSongDuration() {
+      let allMins = Math.floor(audio.duration / 60);
+      if (allMins < 10) {
+        allMins = "0" + String(allMins);
+      }
+
+      let allSecs = Math.floor(audio.duration % 60);
+      if (allSecs < 10) {
+        allSecs = "0" + String(allSecs);
+      }
+
+      if (allMins && allSecs) {
+        return `${allMins}:${allSecs}`;
+      } else {
+        return "00:00";
+      }
+    }
+
+    // Update timestamp
+    function updateTimestamp() {
+      // Get minutes
+      let mins = Math.floor(audio.currentTime / 60);
+      if (mins < 10) {
+        mins = "0" + String(mins);
+      }
+
+      // Get seconds
+      let secs = Math.floor(audio.currentTime % 60);
+      if (secs < 10) {
+        secs = "0" + String(secs);
+      }
+
+      if (mins && secs) {
+        timestamp.innerHTML = `${mins}:${secs} / ${getSongDuration()}`;
+      } else {
+        timestamp.innerHTML = "00:00 / 00:00";
+      }
+    }
+
+    // Update progress bar
+    function updateProgress(e) {
+      const { duration, currentTime } = e.srcElement;
+      const progressPercent = (currentTime / duration) * 100;
+      progress.style.width = `${progressPercent}%`;
+
+      updateTimestamp();
+    }
+
+    // Set progress bar & timestamp
+    function setProgress(e) {
+      const width = this.clientWidth;
+      const clickX = e.offsetX;
+      const duration = audio.duration;
+
+      audio.currentTime = (clickX / width) * duration;
+      updateTimestamp();
+    }
+
+    // Set song on repeat
+    function repeatSong() {
+      const isPlaying = musicContainer.classList.contains("play");
+      noOfRepeats = noOfRepeats + 1;
+
+      if (isPlaying) {
+        pauseSong();
+      } else {
+        startPlayingSong();
+      }
+    }
+
+
+    // Event listeners
+    playBtn.addEventListener("click", () => {
+      repeat.disabled = false;
+      const isPlaying = musicContainer.classList.contains("play");
+
+      if (isPlaying) {
+        pauseSong();
+      } else {
+        playSong();
+      }
+      playBtn.disabled = true;
+    });
+
+
+    // Change song
+
+    nextBtn.addEventListener("click", function () {
+      nextSong();
+    });
+
+    // Time/song update
+    audio.addEventListener("timeupdate", updateProgress);
+
+    // Click on progress bar
+    progressContainer.addEventListener("click", setProgress);
+
+    // Song ends
+    audio.addEventListener("ended", pauseSong);
+
+    // Repeat song
+    repeat.addEventListener("click", repeatSong);
+
+    yes.addEventListener("click", function () {
+      stopButton("yes");
+    });
+    no.addEventListener("click", function () {
+      stopButton("no");
+    });
+
+
+
+  </script>
+</body>
+
+</html>

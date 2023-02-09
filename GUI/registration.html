@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Listening Test</title>
+  <!-- bootstrap & fontawesome css -->
+  <link href="http://cdn.jsdelivr.net/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="http://cdn.jsdelivr.net/fontawesome/4.1.0/css/font-awesome.min.css" />
+
+  <!-- BootstrapValidator CSS -->
+  <link rel="stylesheet" href="http://cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css"/>
+
+  <!-- jQuery and Bootstrap JS -->
+  <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery/1.11.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://cdn.jsdelivr.net/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+  <!-- BootstrapValidator JS -->
+  <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
+  
+  <!-- Animated Loading Icon -->
+  <style type="text/css">
+  .glyphicon-refresh-animate {
+      -animation: spin .7s infinite linear;
+      -webkit-animation: spin2 .7s infinite linear;
+  }
+
+  @-webkit-keyframes spin2 {
+      from { -webkit-transform: rotate(0deg);}
+      to { -webkit-transform: rotate(360deg);}
+  }
+
+  @keyframes spin {
+      from { transform: scale(1) rotate(0deg);}
+      to { transform: scale(1) rotate(360deg);}
+  }
+  </style>
+</head>
+<body>
+</head>
+
+<body>
+
+  <form class="row center" role="form" id="test-form">
+    <div class="form-group">
+      <label class="col-lg-3 control-label">Sentence Number</label>
+      <div class="col-lg-3 inputGroupContainer">
+        <div class="input-group">
+          <input type="text" class="form-control" id='number1' name="firstName" placeholder="Sentence Number"/>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+        <a class="btn-large waves-effect waves-light teal pulse" id="session1" href="recorder_language_change.html">Start session 1 (Language Change)</a>
+      </div>
+     </form>
+
+     <form class="row center" role="form" id="test-form1">
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Sentence Number</label>
+          <div class="col-lg-3 inputGroupContainer">
+            <div class="input-group">
+              <input type="text" class="form-control" name="firstName" placeholder="Sentence Number"/>
+            </div>
+          </div>
+        </div>
+        <div class="row center">
+            <a class="btn-large waves-effect waves-light teal pulse" id="session2" href="recorder_speaker_change.html">Start session 2 (Speaker Change)</a>
+          </div>
+         </form>
+    <script>
+        var element = document.getElementById('session1');
+    
+    element.addEventListener('click', function(event) {
+    // Stop the link from redirecting
+    event.preventDefault();
+    var number = document.getElementById('number1').value
+    // Redirect instead with JavaScript
+    window.location.href = element.href + '?sentence=' + number;
+  }, false);
+    </script>
+  </body>
+</html>

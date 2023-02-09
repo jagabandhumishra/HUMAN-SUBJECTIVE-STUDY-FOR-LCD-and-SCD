@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Listening Test</title>
+  <!-- bootstrap & fontawesome css -->
+  <link href="http://cdn.jsdelivr.net/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="http://cdn.jsdelivr.net/fontawesome/4.1.0/css/font-awesome.min.css" />
+
+  <!-- BootstrapValidator CSS -->
+  <link rel="stylesheet"
+    href="http://cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css" />
+
+  <!-- jQuery and Bootstrap JS -->
+  <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery/1.11.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://cdn.jsdelivr.net/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+  <!-- BootstrapValidator JS -->
+  <script type="text/javascript"
+    src="http://cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
+
+  <!-- Highcharts -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+
+  <!-- Animated Loading Icon -->
+  <style type="text/css">
+    .glyphicon-refresh-animate {
+      -animation: spin .7s infinite linear;
+      -webkit-animation: spin2 .7s infinite linear;
+    }
+
+    @-webkit-keyframes spin2 {
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+
+      to {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      from {
+        transform: scale(1) rotate(0deg);
+      }
+
+      to {
+        transform: scale(1) rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+
+      </div>
+    </div>
+    <hr>
+
+    <form class="row center" role="form" id="test-form">
+      <div class="form-group">
+        <centre><label class="col-lg-5 control-label"> </label></centre>
+        <div class="col-lg-5 inputGroupContainer">
+          <div class="input-group" style='text-align: center; margin-top: 5%'>
+            <label><u>User Registration</u></label></centre>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-5 control-label">Name</label>
+        <div class="col-lg-5 inputGroupContainer">
+          <div class="input-group">
+            <input type="text" class="form-control" name="firstName" placeholder="Name" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group" style="height:auto;">
+        <label class="col-lg-5 control-label">Age</label>
+        <div class="col-lg-5 inputGroupContainer">
+          <div class="input-group">
+            <input type="text" class="form-control" name="age" placeholder="Age" />
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="form-group">
+        <centre><label class="col-lg-5 control-label"> </label></centre>
+        <div class="col-lg-5 inputGroupContainer">
+          <div class="input-group" style='text-align: center; margin-top: 5%'>
+            <label>Language comfortability score(Listening & Understanding)</label><br></centre>
+            <label>Very low - 0</label><br></centre>
+            <label>Lower medium - 1</label></centre><br>
+            <label>Medium - 2</label></centre><br>
+            <label>Excellent - 3</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-5 control-label" style='margin-top: 2%'>Hindi English</label>
+        <div class="col-lg-5 inputGroupContainer" style='margin-top: 2%'>
+          <div class="input-group">
+            <!-- <textarea type="text" class="form-control" name="notes" placeholder="Sentence Number"></textarea> -->
+            <input type="text" class="form-control" name="HindiEnglish" placeholder="Hindi English" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-5 control-label">Bengali English</label>
+        <div class="col-lg-5 inputGroupContainer">
+          <div class="input-group">
+            <!-- <textarea type="text" class="form-control" name="notes" placeholder="Sentence Number"></textarea> -->
+            <input type="text" class="form-control" name="BengaliEnglish" placeholder="Bengali English" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-5 control-label">Tamil English</label>
+        <div class="col-lg-5 inputGroupContainer">
+          <div class="input-group">
+            <!-- <textarea type="text" class="form-control" name="notes" placeholder="Sentence Number"></textarea> -->
+            <input type="text" class="form-control" name="TamilEnglish" placeholder="Tamil English" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-5 control-label">Telegu English</label>
+        <div class="col-lg-5 inputGroupContainer">
+          <div class="input-group">
+            <!-- <textarea type="text" class="form-control" name="notes" placeholder="Sentence Number"></textarea> -->
+            <input type="text" class="form-control" name="TeleguEnglish" placeholder="Telegu English" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-5 control-label">Tamil Malayalam</label>
+        <div class="col-lg-5 inputGroupContainer">
+          <div class="input-group">
+            <!-- <textarea type="text" class="form-control" name="notes" placeholder="Sentence Number"></textarea> -->
+            <input type="text" class="form-control" name="TamilMalayalam" placeholder="Tamil Malayalam" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-5 control-label">Bengali Asamese</label>
+        <div class="col-lg-5 inputGroupContainer">
+          <div class="input-group">
+            <!-- <textarea type="text" class="form-control" name="notes" placeholder="Sentence Number"></textarea> -->
+            <input type="text" class="form-control" name="BengaliAsamese" placeholder="Bengali Asamese" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-5 control-label">Choose</label>
+        <div class="col-lg-5 inputGroupContainer">
+          <div class="input-group">
+            <select class="form-select" id="changeType" name="changeType" aria-label="Default select example">
+              <option value="1">Language Change (Session 1)</option>
+              <option value="2">Speaker Change (Session 2)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <centre>
+          <div class="col-lg-8 col-lg-offset-3" style='text-align: center; margin-top: 2%'>
+            <button type="submit" class="btn btn-default" id="postForm">Start</button>
+          </div>
+        </centre>
+      </div>
+      <div class="form-group">
+        <centre><label class="col-lg-5 control-label"> </label></centre>
+        <div class="col-lg-5 inputGroupContainer">
+          <div class="input-group" style='text-align: center; margin-top: 5%'>
+            <label><u>Already registered? Click on this button to login</u></label><br></centre>
+
+            <form action="/login" class="inline">
+              <button onclick="window.location.href='login.html'" class="float-left submit-button">Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="form-group">
+      <div class="col-lg-9 col-lg-offset-3" style='text-align: center; margin-top: 2%'>
+        <button type="submit" class="btn btn-default" id="postForm1">Speaker Detection (Session 2)</button>
+      </div>
+    </div> -->
+
+      <!-- <div class="row center">
+      <a class="btn-large waves-effect waves-light teal pulse" href="registration.html">If already registered (Click here)</a>
+    </div> -->
+    </form>
+
+  </div>
+</body>
+
+<footer>
+  <script src="validation-functions1.js"></script>
+  <!-- <script src="validation-function-speaker.js"></script> -->
+  <script>
+    // var element = document.getElementById('postForm').value
+    // window.location.href = element.href + '?sentence-number=1';
+
+  </script>
+</footer>
+
+</html>
